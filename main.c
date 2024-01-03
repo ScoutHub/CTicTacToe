@@ -2,17 +2,17 @@
 #include "raylib.h"
 #include <stdbool.h>
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 800
-#define BOARD_WIDTH 800
-#define BOARD_HEIGHT 700
-#define BOARD_OFFSET 10
-#define CELL_WIDTH (BOARD_WIDTH / 3)
-#define CELL_HEIGHT (BOARD_HEIGHT / 3)
-#define MARK_OFFSET 50
-#define COLS 3
-#define ROWS 3
-#define CIRCLE_RADIUS 80 
+#define SCREEN_WIDTH 	800
+#define SCREEN_HEIGHT 	800
+#define BOARD_WIDTH		SCREEN_WIDTH 
+#define BOARD_HEIGHT 	(SCREEN_HEIGHT - 100)
+#define BOARD_OFFSET 	10
+#define CELL_WIDTH 		(BOARD_WIDTH / 3)
+#define CELL_HEIGHT 	(BOARD_HEIGHT / 3)
+#define MARK_OFFSET 	50
+#define COLS 			3
+#define ROWS 			3
+#define CIRCLE_RADIUS 	80 
 
 void draw_board(char board[COLS][ROWS])
 {
@@ -111,7 +111,7 @@ int main(void)
 					Vector2 mouse_position = GetMousePosition();
 					if(mouse_clicked(board, mouse_position, turn)) turn = turn == 'X' ? 'O' : 'X';
 				}
-				DrawText(turn == 'X' ? "X to play" : "O to play", SCREEN_WIDTH / 3 + 50, SCREEN_HEIGHT - 50, 30, BLACK);
+				DrawText(turn == 'X' ? "X to play" : "O to play", SCREEN_WIDTH / 3 + 80, SCREEN_HEIGHT - 50, 30, BLACK);
 				break;
 			case 1:
 				DrawText(turn == 'O' ? "X Won!" : "O Won!", SCREEN_WIDTH / 3 + 80, SCREEN_HEIGHT - 50, 30, BLACK);
