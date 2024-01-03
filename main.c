@@ -13,6 +13,19 @@
 #define COLS 			3
 #define ROWS 			3
 #define CIRCLE_RADIUS 	80 
+#define REPLAY_BUTTON_X	(SCREEN_WIDTH - 150)
+#define REPLAY_BUTTON_Y	(SCREEN_HEIGHT - 50)
+#define BUTTON_W		100
+#define BUTTON_H		30
+
+void reset_game(char board[COLS][ROWS])
+{
+	for (int i = 0; i < COLS; ++i) {
+		for (int j = 0; j < ROWS; ++j) {
+			board[i][j] = '0';
+		}
+	}
+}
 
 void draw_board(char board[COLS][ROWS])
 {
@@ -45,13 +58,13 @@ bool mouse_clicked(char board[COLS][ROWS], Vector2 mouse_position, char mark)
 	
 	// Second row
 	else if(mouse_position.x < CELL_WIDTH && mouse_position.y > CELL_HEIGHT && mouse_position.y < 2 * CELL_HEIGHT && board[1][0] == '0') board[1][0] = mark;
-	else if(mouse_position.x < 2 * CELL_WIDTH && mouse_position.x > CELL_WIDTH  && mouse_position.y > CELL_HEIGHT && mouse_position.y < 2 * CELL_HEIGHT && board[1][1] == '0') board[1][1] = mark;
-	else if(mouse_position.x < 3 * CELL_WIDTH && mouse_position.x > 2 * CELL_WIDTH  && mouse_position.y > CELL_HEIGHT && mouse_position.y < 2 * CELL_HEIGHT && board[1][2] == '0') board[1][2] = mark;
+	else if(mouse_position.x < 2 * CELL_WIDTH && mouse_position.x > CELL_WIDTH && mouse_position.y > CELL_HEIGHT && mouse_position.y < 2 * CELL_HEIGHT && board[1][1] == '0') board[1][1] = mark;
+	else if(mouse_position.x < 3 * CELL_WIDTH && mouse_position.x > 2 * CELL_WIDTH && mouse_position.y > CELL_HEIGHT && mouse_position.y < 2 * CELL_HEIGHT && board[1][2] == '0') board[1][2] = mark;
 	
 	// Third row
-	else if(mouse_position.x < CELL_WIDTH && mouse_position.y > 2 * CELL_HEIGHT && board[2][0] == '0') board[2][0] = mark;
-	else if(mouse_position.x < 2 * CELL_WIDTH && mouse_position.x > CELL_WIDTH  && mouse_position.y > 2 * CELL_HEIGHT && board[2][1] == '0') board[2][1] = mark;
-	else if(mouse_position.x < 3 * CELL_WIDTH && mouse_position.x > 2 * CELL_WIDTH  && mouse_position.y > 2 * CELL_HEIGHT && board[2][2] == '0') board[2][2] = mark;
+	else if(mouse_position.x < CELL_WIDTH && mouse_position.y > 2 * CELL_HEIGHT && mouse_position.y < 3 * CELL_HEIGHT && board[2][0] == '0') board[2][0] = mark;
+	else if(mouse_position.x < 2 * CELL_WIDTH && mouse_position.x > CELL_WIDTH && mouse_position.y > 2 * CELL_HEIGHT && mouse_position.y < 3 * CELL_HEIGHT && board[2][1] == '0') board[2][1] = mark;
+	else if(mouse_position.x < 3 * CELL_WIDTH && mouse_position.x > 2 * CELL_WIDTH && mouse_position.y > 2 * CELL_HEIGHT && mouse_position.y < 3 * CELL_HEIGHT && board[2][2] == '0') board[2][2] = mark;
 
 	// If cell can't be played
 	else return false;
@@ -91,6 +104,15 @@ int check_winner(char board[COLS][ROWS])
 	return 0;
 }
 
+void replay_pressed(char board[COLS][ROWS], Vector2 mouse_position)
+{
+	// If replay button was pressed
+	//
+	if(mouse_position.x >= REPLAY_BUTTON_X && mouse_position.x <= REPLAY_BUTTON_X + BUTTON_W && mouse_position.y >= REPLAY_BUTTON_Y && mouse_position.y <= REPLAY_BUTTON_Y + BUTTON_H) {
+		reset_game(board);
+	}
+}
+
 int main(void)
 {
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tic Tac Toe");
@@ -104,11 +126,13 @@ int main(void)
 	while(!WindowShouldClose()) {
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
+		
+		Vector2 mouse_position = GetMousePosition();
 		draw_board(board);
+		
 		switch (game_finished) {
 			case 0:
 				if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-					Vector2 mouse_position = GetMousePosition();
 					if(mouse_clicked(board, mouse_position, turn)) turn = turn == 'X' ? 'O' : 'X';
 				}
 				DrawText(turn == 'X' ? "X to play" : "O to play", SCREEN_WIDTH / 3 + 80, SCREEN_HEIGHT - 50, 30, BLACK);
@@ -122,7 +146,12 @@ int main(void)
 			default:
 				break;
 		};
+		
+		DrawRectangleLines(REPLAY_BUTTON_X, REPLAY_BUTTON_Y, BUTTON_W, BUTTON_H, BLACK);
+		DrawText("Replay", SCREEN_WIDTH - 135, SCREEN_HEIGHT - 45, 20, BLACK);
 		game_finished = check_winner(board);
+		if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) replay_pressed(board, mouse_position);
+
 		EndDrawing();
 	}
 	CloseWindow();
