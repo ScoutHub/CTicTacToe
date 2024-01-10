@@ -6,4 +6,4 @@ Sample game of Tic tac toe in C with Raylib. Project is only available on MacOS 
 <li><a href="https://www.raylib.com">Raylib</a></li>
 
 ## How to run
-`./build.sh && ./main` and enjoy !
+`./build.sh` and enjoy !
