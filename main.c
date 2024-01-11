@@ -3,20 +3,20 @@
 #include <stdbool.h>
 
 #define SCREEN_WIDTH 	800
-#define SCREEN_HEIGHT 	800
-#define BOARD_WIDTH		SCREEN_WIDTH 
+#define SCREEN_HEIGHT	800
+#define BOARD_WIDTH     SCREEN_WIDTH 
 #define BOARD_HEIGHT 	(SCREEN_HEIGHT - 100)
 #define BOARD_OFFSET 	10
-#define CELL_WIDTH 		(BOARD_WIDTH / 3)
+#define CELL_WIDTH      (BOARD_WIDTH / 3)
 #define CELL_HEIGHT 	(BOARD_HEIGHT / 3)
 #define MARK_OFFSET 	50
-#define COLS 			3
-#define ROWS 			3
+#define COLS            3
+#define ROWS            3
 #define CIRCLE_RADIUS 	80 
 #define REPLAY_BUTTON_X	(SCREEN_WIDTH - 150)
 #define REPLAY_BUTTON_Y	(SCREEN_HEIGHT - 50)
-#define BUTTON_W		100
-#define BUTTON_H		30
+#define BUTTON_W        100
+#define BUTTON_H        30
 
 void reset_game(char board[COLS][ROWS])
 {
